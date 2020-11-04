@@ -7,15 +7,26 @@
         </div>
         <h4>New here?</h4>
         <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-        <form class="pt-3">
+        <form class="pt-3" [formGroup]="registerForm" (ngSubmit)="postData(registerForm)">
           <div class="form-group">
-            <input type="text" class="form-control form-control-lg" id="exampleInputUsername1" placeholder="Username">
+            <input type="text" formControlName="userName" class="form-control form-control-lg" id="exampleInputUsername1" placeholder="Username">
+            <span class="text-danger"
+              *ngIf="(formControl.userName.touched || submitted) && formControl.userName.errors?.required">
+              UserName is required
+            </span>
           </div>
           <div class="form-group">
-            <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
+            <input type="email" formControlName="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
+            <span class="text-danger"
+              *ngIf="(formControl.email.touched || submitted) && formControl.email.errors?.required">
+              Email is required
+            </span>
+            <span class="text-danger" *ngIf="formControl.email.touched && formControl.email.errors?.email">
+              Enter a valid email address
+            </span>
           </div>
           <div class="form-group">
-            <select class="form-control form-control-lg" id="exampleFormControlSelect2">
+            <select class="form-control form-control-lg" id="exampleFormControlSelect2" formControlName="country">
               <option>Country</option>
               <option>United States of America</option>
               <option>United Kingdom</option>
@@ -23,9 +34,17 @@
               <option>Germany</option>
               <option>Argentina</option>
             </select>
+            <span class="text-danger"
+              *ngIf="(formControl.country.touched || submitted) && formControl.country.errors?.required">
+              Select Country
+            </span>
           </div>
           <div class="form-group">
-            <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+            <input type="password" formControlName="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+            <span class="text-danger"
+              *ngIf="(formControl.password.touched || submitted) && formControl.password.errors?.required">
+              Password is required
+            </span>
           </div>
           <div class="mb-4">
             <div class="form-check">
@@ -37,7 +56,7 @@
             </div>
           </div>
           <div class="mt-3">
-            <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" (click)="navigateToDashboard()">SIGN UP</a>
+            <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" [disabled]="!registerForm.valid" (click)="navigateToDashboard()">SIGN UP</button>
           </div>
           <div class="text-center mt-4 font-weight-light">
             Already have an account? <a (click)="navigateToLogin()" class="text-primary">Login</a>
